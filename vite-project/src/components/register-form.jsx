@@ -7,13 +7,14 @@ import { useAuth } from "@/context/AuthContext"
 import { useState } from "react"
 import { useNavigate } from "react-router"
 
-export function LoginForm({ className, ...props }) {
+export function RegisterForm({ className, ...props }) {
 
-  const { login, error } = useAuth();
+  const { register, error } = useAuth();
 
   const navigate = useNavigate();
 
   const [data, setData] = useState({
+    name: "",
     email: "",
     password: ""
   });
@@ -27,7 +28,7 @@ export function LoginForm({ className, ...props }) {
 
   const handleSubmitForm = async (event) => {
     event.preventDefault();
-    const result = await login(data);
+    const result = await register(data);
     if (result) {
       navigate('/');
     }
@@ -44,10 +45,20 @@ export function LoginForm({ className, ...props }) {
             {error ? <div className="bg-red-50 text-red-500 p-3 rounded-md mb-4 text-sm font-medium" id="error-message">{error}</div> : null}
             <div className="flex flex-col gap-6">
               <div className="flex flex-col items-center text-center">
-                <h1 className="text-2xl font-bold">Bienvenido</h1>
+                <h1 className="text-2xl font-bold">Regístrate</h1>
                 <p className="text-muted-foreground text-balance">
-                  Accede a tu cuenta
+                  Crea tu cuenta
                 </p>
+              </div>
+              <div className="grid gap-3">
+                <Label htmlFor="name">Nombre</Label>
+                <Input
+                  id="name"
+                  type="name"
+                  name="name"
+                  value={data.name}
+                  onChange={handleInputChange}
+                  required />
               </div>
               <div className="grid gap-3">
                 <Label htmlFor="email">Email</Label>
@@ -73,12 +84,12 @@ export function LoginForm({ className, ...props }) {
                   required />
               </div>
               <Button type="submit" className="w-full">
-                Login
+                Registrarse
               </Button>
               <div className="text-center text-sm">
-                ¿No tienes cuenta?{" "}
-                <a href="/register" className="underline underline-offset-4">
-                  Regístrate
+                ¿Ya tienes cuenta?{" "}
+                <a href="/login" className="underline underline-offset-4">
+                  Login
                 </a>
               </div>
             </div>
