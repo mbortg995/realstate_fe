@@ -4,8 +4,10 @@ import { Card, CardContent } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { useAuth } from "@/context/AuthContext"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { useNavigate } from "react-router"
+import { Combobox } from "./ui/ComboBox"
+
 
 export function RegisterForm({ className, ...props }) {
 
@@ -13,16 +15,26 @@ export function RegisterForm({ className, ...props }) {
 
   const navigate = useNavigate();
 
+  const [buildings, setBuildings] = useState([]);
+
   const [data, setData] = useState({
     name: "",
     email: "",
-    password: ""
+    password: "",
+    building_id: ""
   });
 
   const handleInputChange = (event) => {
     setData({
       ...data,
       [event.target.name]: event.target.value
+    });
+  }
+
+  const handleComboboxChange = (value) => {
+    setData({
+      ...data,
+      building_id: value
     });
   }
 
@@ -33,6 +45,25 @@ export function RegisterForm({ className, ...props }) {
       navigate('/');
     }
   }
+
+  useEffect(() => {
+    const getBuildings = async () => {
+
+      const response = await fetch('http://localhost:3000/api/buildings');
+
+      const buildings = await response.json();
+
+      setBuildings(buildings.map((building) => {
+        return {
+          value: building._id,
+          label: building.name
+        }
+      }));
+    }
+    getBuildings();
+  }, []);
+
+
 
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
@@ -82,6 +113,18 @@ export function RegisterForm({ className, ...props }) {
                   value={data.password}
                   onChange={handleInputChange}
                   required />
+              </div>
+              <div className="grid gap-3">
+                <div className="flex items-center">
+                  <Label htmlFor="building">Vivienda</Label>
+                </div>
+                <Combobox
+                  placeholder="Selecciona una promoción"
+                  searchPlaceholder="Busca una promoción"
+                  searchEmpty="No se han encontrado promociones"
+                  items={buildings}
+                  onChange={handleComboboxChange}
+                />
               </div>
               <Button type="submit" className="w-full">
                 Registrarse
