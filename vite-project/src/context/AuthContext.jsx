@@ -6,6 +6,7 @@ export const AuthProvider = ({ children }) => {
   const [error, setError] = useState("");
 
   const token = localStorage.getItem("token");
+  const user = JSON.parse(localStorage.getItem("user"));
   const isAutenticated = token !== null;
 
   const logout = () => {
@@ -35,6 +36,7 @@ export const AuthProvider = ({ children }) => {
         id: user.id,
         email: user.email,
         username: user.username,
+        building_id: user.building_id
       }));
 
       localStorage.setItem('token', token);
@@ -69,6 +71,7 @@ export const AuthProvider = ({ children }) => {
         id: user.id,
         email: user.email,
         name: user.name,
+        building_id: user.building_id
       }));
 
       localStorage.setItem('token', token);
@@ -84,6 +87,7 @@ export const AuthProvider = ({ children }) => {
   return (
     <AuthContext.Provider value={{
       token,
+      user,
       isAutenticated,
       login,
       register,
