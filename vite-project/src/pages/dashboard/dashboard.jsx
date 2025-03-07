@@ -1,3 +1,4 @@
+import { Button } from "@/components/ui/button";
 import { useAuth } from "@/context/AuthContext"
 import { useEffect, useState } from "react";
 
@@ -35,7 +36,19 @@ const Dashboard = () => {
   }, []);
 
   return (
-    <p>Dashboard</p>
+    <>
+      <nav className="flex justify-between items-center bg-slate-100 p-4 lg:px-12 lg:py-4">
+        <div>Real State Manager</div>
+        <div className="flex gap-4 items-center">
+          <p>Nombre de usuario</p>
+          <Button>Logout</Button>
+        </div>
+      </nav>
+      <main className="container mx-auto flex mt-6 h-full">
+        <div className="w-2/3 bg-slate-200">Contenido</div>
+        <div className="w-1/3 bg-slate-400">Sidebar</div>
+      </main>
+    </>
   )
 }
 
