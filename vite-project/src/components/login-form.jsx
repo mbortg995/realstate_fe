@@ -29,7 +29,7 @@ export function LoginForm({ className, ...props }) {
     event.preventDefault();
     const result = await login(data);
     if (result) {
-      navigate('/');
+      navigate('/dashboard');
     }
   }
 
