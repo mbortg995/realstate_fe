@@ -17,6 +17,7 @@ import PaymentsListItem from "@/components/PaymentsListItem";
 import { Badge } from "@/components/ui/badge"
 import Post from "@/components/Post";
 import { House, MapPin } from "lucide-react";
+import usePaymentPlan from "@/hooks/usePaymentPlan";
 
 
 const Dashboard = () => {
@@ -25,6 +26,8 @@ const Dashboard = () => {
   const [posts, setPosts] = useState([]);
   const { logout, user, token } = useAuth();
   const navigate = useNavigate();
+
+  const { totalAmount, paidToDate, pendingAmount, percentagePaid } = usePaymentPlan(payments);
 
   const [data, setData] = useState({
     amount: "",
@@ -137,33 +140,25 @@ const Dashboard = () => {
           <div className="flex justify-between mt-4">
             <p className="text-sm text-neutral-600">Porcentaje pagado</p>
             <Badge variant="outline">
-              {payments.length > 0 &&
-                (
-                  (payments.filter(payment => payment.status === 'Payed').reduce((acc, payment) => acc + payment.amount, 0) /
-                    payments.reduce((acc, payment) => acc + payment.amount, 0)) * 100
-                ).toFixed(2)}%
+              {new Intl.NumberFormat("es-ES", { style: "percent", minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(percentagePaid)}
             </Badge>
           </div>
           <div className="flex justify-between mt-4">
             <p className="text-sm text-neutral-600">Total a pagar</p>
             <Badge variant="outline">
-              {payments.reduce((acc, payment) => acc + payment.amount, 0).toFixed(2)}€
+              {new Intl.NumberFormat("es-ES", { style: "currency", currency: "EUR" }).format(totalAmount)}
             </Badge>
           </div>
           <div className="flex justify-between mt-4">
             <p className="text-sm text-neutral-600">Pagado hasta la fecha</p>
             <Badge variant="outline">
-              {payments
-                .filter(payment => payment.status === 'Payed')
-                .reduce((acc, payment) => acc + payment.amount, 0).toFixed(2)}€
+              {new Intl.NumberFormat("es-ES", { style: "currency", currency: "EUR" }).format(paidToDate)}
             </Badge>
           </div>
           <div className="flex justify-between mt-4">
             <p className="text-sm text-neutral-600">Restante</p>
             <Badge variant="outline">
-              {payments
-                .filter(payment => payment.status === 'Pending')
-                .reduce((acc, payment) => acc + payment.amount, 0).toFixed(2)}€
+              {new Intl.NumberFormat("es-ES", { style: "currency", currency: "EUR" }).format(pendingAmount)}
             </Badge>
           </div>
           <div className="mt-4">
