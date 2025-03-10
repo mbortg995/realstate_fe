@@ -15,7 +15,8 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import PaymentsListItem from "@/components/PaymentsListItem";
 import { Badge } from "@/components/ui/badge"
-import Posts from "@/components/Posts";
+import Post from "@/components/Post";
+import { House, MapPin } from "lucide-react";
 
 
 const Dashboard = () => {
@@ -88,78 +89,86 @@ const Dashboard = () => {
 
   return (
     <>
-      <nav className="flex justify-between items-center bg-slate-100 p-4 lg:px-12 lg:py-4">
-        <h1>Real State Manager</h1>
-        <div className="flex gap-4 items-center">
-          <p>{user.name}</p>
-          <Button onClick={() => {
-            logout();
-            navigate('/login');
-          }}>Logout</Button>
+      <nav className="w-full bg-teal-900 text-white py-4">
+        <div className="container mx-auto flex justify-between items-center px-4">
+          <h1 className="font-semibold text-lg">Real State Manager</h1>
+          <div className="flex gap-10 items-center">
+            <p className="font-medium">{user.name}</p>
+            <Button
+              variant="outline"
+              className="bg-transparent"
+              onClick={() => {
+                logout();
+                navigate('/login');
+              }}
+            >
+              Logout
+            </Button>
+          </div>
         </div>
       </nav>
       <main className="container mx-auto flex mt-6 h-full flex-1 gap-8 mb-6">
-        <div className="w-2/3 bg-slate-200 p-4 rounded-md">
-          <div className="building-info bg-slate-100">
-            <h2 className="">{buildings.name}</h2>
-            <div className="flex justify-between">
-              <p>{buildings.address}</p>
-              <p>{buildings.housing_number}</p>
+        <div className="w-2/3 p-4">
+          <h2 className="text-4xl font-medium">{buildings.name}</h2>
+          <div className="flex justify-between mt-2 items-center">
+            <div className="flex gap-2 items-center">
+              <MapPin className="size-4" />
+              <span>{buildings.address}</span>
+            </div>
+            <div className="flex gap-2 items-center">
+              <House className="size-4" />
+              <span>{buildings.housing_number}</span>
             </div>
           </div>
-          <div className="posts-section pt-8">
-            <div className=" flex justify-between bg-slate-100">
-              <p>Novedades de la comunidad</p>
-              <p>Publicar un post</p>
+          <div className="mt-8 pt-8 border-t border-neutral-200 border-dashed">
+            <div className=" flex justify-between items-center">
+              <h3 className="text-2xl">Novedades de la comunidad</h3>
+              <Button>Publicar un post</Button>
             </div>
-            <div className="posts pt-8 ">
-              <div className="post-list">
-                {posts && posts
-                  .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
-                  .map(post => <Posts postsInfo={post} key={post._id} />)}
-              </div>
+            <div className="mt-4">
+              {posts && posts
+                .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+                .map(post => <Post post={post} key={post._id} />)}
             </div>
           </div>
         </div>
-        <div className="w-1/3 bg-slate-400 p-4 rounded-md">
-          <div className="payment-overview">
-            <div className="payment-resume flex justify-between pt-1">
-              <h2>Resumen de pagos</h2>
-              <Badge>
-                {payments.length > 0 &&
-                  (
-                    (payments.filter(payment => payment.status === 'Payed').reduce((acc, payment) => acc + payment.amount, 0) /
-                      payments.reduce((acc, payment) => acc + payment.amount, 0)) * 100
-                  ).toFixed(2)}%
-              </Badge>
-            </div>
-            <div className="total-amount flex justify-between pt-1">
-              <p>Total</p>
-              <Badge>
-                {payments.reduce((acc, payment) => acc + payment.amount, 0).toFixed(2)}€
-              </Badge>
-            </div>
-            <div className="flex justify-between pt-1">
-              <p>Pagado hasta la fecha</p>
-              <Badge>
-                {payments
-                  .filter(payment => payment.status === 'Payed')
-                  .reduce((acc, payment) => acc + payment.amount, 0).toFixed(2)}€
-              </Badge>
-            </div>
-            <div className="flex justify-between pt-1">
-              <p>Restante</p>
-              <Badge>
-                {payments
-                  .filter(payment => payment.status === 'Pending')
-                  .reduce((acc, payment) => acc + payment.amount, 0).toFixed(2)}€
-              </Badge>
-            </div>
+        <div className="w-1/3 bg-neutral-50 py-4 px-6 rounded-md">
+          <h2 className="text-2xl">Resumen de pagos</h2>
+          <div className="flex justify-between mt-4">
+            <p className="text-sm text-neutral-600">Porcentaje pagado</p>
+            <Badge variant="outline">
+              {payments.length > 0 &&
+                (
+                  (payments.filter(payment => payment.status === 'Payed').reduce((acc, payment) => acc + payment.amount, 0) /
+                    payments.reduce((acc, payment) => acc + payment.amount, 0)) * 100
+                ).toFixed(2)}%
+            </Badge>
           </div>
-          <div className="payment-list pt-4">
-            <h2>Plan de pagos</h2>
+          <div className="flex justify-between mt-4">
+            <p className="text-sm text-neutral-600">Total a pagar</p>
+            <Badge variant="outline">
+              {payments.reduce((acc, payment) => acc + payment.amount, 0).toFixed(2)}€
+            </Badge>
+          </div>
+          <div className="flex justify-between mt-4">
+            <p className="text-sm text-neutral-600">Pagado hasta la fecha</p>
+            <Badge variant="outline">
+              {payments
+                .filter(payment => payment.status === 'Payed')
+                .reduce((acc, payment) => acc + payment.amount, 0).toFixed(2)}€
+            </Badge>
+          </div>
+          <div className="flex justify-between mt-4">
+            <p className="text-sm text-neutral-600">Restante</p>
+            <Badge variant="outline">
+              {payments
+                .filter(payment => payment.status === 'Pending')
+                .reduce((acc, payment) => acc + payment.amount, 0).toFixed(2)}€
+            </Badge>
+          </div>
+          <div className="mt-4">
             {payments.length === 0 ? (
-              <div className="bg-slate-50 p-3 rounded-md mb-4 text-sm font-medium">
+              <div className="bg-neutral-50 p-3 rounded-md mb-4 text-sm font-medium">
                 <p>Todavía no tienes ningún pago guardado.</p>
                 <Dialog>
                   <DialogTrigger asChild>
@@ -213,7 +222,7 @@ const Dashboard = () => {
                 </Dialog>
               </div>
             ) : null}
-            <div className="payments-list" id="payments-list">
+            <div className="flex flex-col gap-3">
               {payments &&
                 payments
                   .sort((a, b) => new Date(b.payment_date) - new Date(a.payment_date))

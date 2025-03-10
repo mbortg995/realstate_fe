@@ -18,9 +18,9 @@ const badgeVariants = cva(
         outline:
           "text-foreground [a&]:hover:bg-accent [a&]:hover:text-accent-foreground",
         Pending:
-          "border-yellow-500 bg-amber-300 text-amber-700 [a&]:hover:bg-yellow-600",
+          "border-yellow-300 bg-amber-50 text-amber-600",
         Payed:
-          "border-green-500 bg-green-500 text-green-900 [a&]:hover:bg-green-600",
+          "border-green-300 bg-green-50 text-green-600",
       },
     },
     defaultVariants: {
