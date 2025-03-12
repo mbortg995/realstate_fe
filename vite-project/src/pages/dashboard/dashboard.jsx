@@ -24,6 +24,7 @@ const Dashboard = () => {
   const [buildings, setBuildings] = useState([]);
   const [payments, setPayments] = useState([]);
   const [posts, setPosts] = useState([]);
+
   const { logout, user, token } = useAuth();
   const navigate = useNavigate();
 
@@ -34,12 +35,6 @@ const Dashboard = () => {
     payment_number: "",
     starting_date: ""
   });
-
-  useEffect(() => {
-    if (!token) {
-      navigate('/login');
-    }
-  }, []);
 
   const handleInputChange = (event) => {
     setData({
@@ -61,37 +56,65 @@ const Dashboard = () => {
   }
 
   useEffect(() => {
+    if (!token) {
+      navigate('/login');
+      return;
+    }
+
+
+
     const getBuildings = async () => {
+      try {
+        const response = await fetch(`http://localhost:3000/api/buildings/${user.building_id}`);
 
-      const response = await fetch(`http://localhost:3000/api/buildings/${user.building_id}`);
-
-      const buildings = await response.json();
-      setBuildings(buildings);
+        const buildings = await response.json();
+        setBuildings(buildings);
+      } catch (error) {
+        console.log(error);
+        navigate('/login');
+      }
     }
     getBuildings();
 
     const getPayments = async () => {
+      try {
+        const response = await fetch('http://localhost:3000/api/payments', {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
 
-      const response = await fetch('http://localhost:3000/api/payments', {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-
-      const payments = await response.json();
-      setPayments(payments);
+        const payments = await response.json();
+        const { error } = payments;
+        if (error) {
+          navigate('/login');
+          return;
+        }
+        setPayments(payments);
+      } catch {
+        navigate('/login');
+      }
     }
     getPayments();
 
     const getPosts = async () => {
-      const response = await fetch('http://localhost:3000/api/posts', {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      const posts = await response.json();
-      console.log(posts);
-      setPosts(posts);
+      try {
+        const response = await fetch('http://localhost:3000/api/posts', {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        const posts = await response.json();
+        const { error } = posts;
+        if (error) {
+          navigate('/login');
+          return;
+        }
+        setPosts(posts);
+      } catch {
+        navigate('/login');
+      }
+
     }
     getPosts();
   }, []);
