@@ -35,6 +35,12 @@ const Dashboard = () => {
     starting_date: ""
   });
 
+  useEffect(() => {
+    if (!token) {
+      navigate('/login');
+    }
+  }, []);
+
   const handleInputChange = (event) => {
     setData({
       ...data,
@@ -90,7 +96,7 @@ const Dashboard = () => {
     getPosts();
   }, []);
 
-  return (
+  return token ? (
     <>
       <nav className="w-full bg-teal-900 text-white py-4">
         <div className="container mx-auto flex justify-between items-center px-4">
@@ -277,7 +283,7 @@ const Dashboard = () => {
         </div>
       </main>
     </>
-  );
+  ) : null
 }
 
 export default Dashboard;
