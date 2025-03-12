@@ -36,6 +36,11 @@ const Dashboard = () => {
     starting_date: ""
   });
 
+  const navigateLogin = () => {
+    navigate('/login');
+    return;
+  }
+
   const handleInputChange = (event) => {
     setData({
       ...data,
@@ -57,11 +62,8 @@ const Dashboard = () => {
 
   useEffect(() => {
     if (!token) {
-      navigate('/login');
-      return;
+      navigateLogin();
     }
-
-
 
     const getBuildings = async () => {
       try {
@@ -70,8 +72,7 @@ const Dashboard = () => {
         const buildings = await response.json();
         setBuildings(buildings);
       } catch (error) {
-        console.log(error);
-        navigate('/login');
+        navigateLogin();
       }
     }
     getBuildings();
@@ -87,12 +88,12 @@ const Dashboard = () => {
         const payments = await response.json();
         const { error } = payments;
         if (error) {
-          navigate('/login');
+          navigateLogin();
           return;
         }
         setPayments(payments);
       } catch {
-        navigate('/login');
+        navigateLogin();
       }
     }
     getPayments();
@@ -107,12 +108,12 @@ const Dashboard = () => {
         const posts = await response.json();
         const { error } = posts;
         if (error) {
-          navigate('/login');
+          navigateLogin();
           return;
         }
         setPosts(posts);
       } catch {
-        navigate('/login');
+        navigateLogin();
       }
 
     }

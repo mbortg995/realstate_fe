@@ -4,12 +4,12 @@ import { Card, CardContent } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { useAuth } from "@/context/AuthContext"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { useNavigate } from "react-router"
 
 export function LoginForm({ className, ...props }) {
 
-  const { login, error } = useAuth();
+  const { login, error, user } = useAuth();
 
   const navigate = useNavigate();
 
@@ -17,6 +17,12 @@ export function LoginForm({ className, ...props }) {
     email: "",
     password: ""
   });
+
+  useEffect(() => {
+    if (user) {
+      navigate('/dashboard');
+    }
+  }, [user, navigate])
 
   const handleInputChange = (event) => {
     setData({
@@ -27,10 +33,7 @@ export function LoginForm({ className, ...props }) {
 
   const handleSubmitForm = async (event) => {
     event.preventDefault();
-    const result = await login(data);
-    if (result) {
-      navigate('/dashboard');
-    }
+    await login(data);
   }
 
   return (
