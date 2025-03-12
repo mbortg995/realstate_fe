@@ -5,7 +5,7 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { useAuth } from "@/context/AuthContext"
 import { useEffect, useState } from "react"
-import { useNavigate } from "react-router"
+import { Link, useNavigate } from "react-router"
 import { Combobox } from "./ui/ComboBox"
 
 
@@ -131,9 +131,9 @@ export function RegisterForm({ className, ...props }) {
               </Button>
               <div className="text-center text-sm">
                 ¿Ya tienes cuenta?{" "}
-                <a href="/login" className="underline underline-offset-4">
+                <Link to="/login" className="underline underline-offset-4">
                   Login
-                </a>
+                </Link>
               </div>
             </div>
           </form>

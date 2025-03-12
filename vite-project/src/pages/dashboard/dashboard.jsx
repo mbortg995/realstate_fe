@@ -161,14 +161,14 @@ const Dashboard = () => {
                 <p>Todavía no tienes ningún pago guardado.</p>
                 <PaymentDialog onSubmit={getPayments} />
               </div>
-            ) : null}
-            <div className="flex flex-col gap-3">
-              {payments &&
-                payments
+            ) : (
+              <div className="flex flex-col gap-3">
+                {payments
                   .sort((a, b) => new Date(b.payment_date) - new Date(a.payment_date))
                   .map(payment => <PaymentsListItem payment={payment} key={payment._id} />)}
-              <PaymentDialog onSubmit={getPayments} />
-            </div>
+                <PaymentDialog onSubmit={getPayments} />
+              </div>
+            )}
           </div>
         </div>
       </main>

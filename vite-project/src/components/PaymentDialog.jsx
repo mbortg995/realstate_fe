@@ -43,11 +43,9 @@ const PaymentDialog = ({ onSubmit }) => {
     onSubmit();
   }
   return (
-    <Dialog open={isOpen}>
+    <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
-        <Button className="mt-2" onClick={() => {
-          setIsOpen(true);
-        }}>Crear pagos</Button>
+        <Button className="mt-2">Crear pagos</Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <form onSubmit={handleSubmitForm}>
