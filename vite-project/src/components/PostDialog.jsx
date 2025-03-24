@@ -36,23 +36,32 @@ const PostDialog = () => {
   const handleInputFiles = (event) => {
     setData({
       ...data,
-      [event.target.name]: event.target.files
+      [event.target.name]: Array.from(event.target.files)
     });
   }
 
-  const handleSubmitForm = async () => {
-    const post = await fetch('http://localhost:3000/api/posts', {
+
+  const handleSubmitForm = async (event) => {
+    event.preventDefault();
+
+    const form = new FormData();
+
+    console.log(data);
+
+    form.append("title", data.title);
+    form.append("content", data.content);
+    data.images.forEach(image => {
+      form.append("images", image);
+    });
+
+    await fetch('http://localhost:3000/api/posts', {
       method: 'POST',
       headers: {
         Authorization: `Bearer ${token}`,
-        'Content-Type': 'application/json',
       },
-      body: JSON.stringify(data),
+      body: form,
     });
 
-    console.log(post);
-
-    // setIsOpen(false);
   }
 
   return (
@@ -61,7 +70,7 @@ const PostDialog = () => {
         <Button className="mt-2">Publicar Post</Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[625px]">
-        <form onSubmit={handleSubmitForm} encType="multipart/form-data">
+        <form onSubmit={handleSubmitForm}>
           <DialogHeader>
             <DialogTitle>Crear una publicación</DialogTitle>
             <DialogDescription>Añade título y descripción</DialogDescription>
@@ -91,7 +100,9 @@ const PostDialog = () => {
               <Input
                 type="file"
                 id="images"
+                name="images"
                 onChange={handleInputFiles}
+                multiple
               />
             </div>
           </div>
