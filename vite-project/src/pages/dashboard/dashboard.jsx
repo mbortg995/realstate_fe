@@ -8,6 +8,7 @@ import Post from "@/components/Post";
 import { House, MapPin } from "lucide-react";
 import usePaymentPlan from "@/hooks/usePaymentPlan";
 import PaymentDialog from "@/components/PaymentDialog";
+import PostDialog from "@/components/PostDialog";
 
 const Dashboard = () => {
   const [buildings, setBuildings] = useState([]);
@@ -120,7 +121,7 @@ const Dashboard = () => {
           <div className="mt-8 pt-8 border-t border-neutral-200 border-dashed">
             <div className=" flex justify-between items-center">
               <h3 className="text-2xl">Novedades de la comunidad</h3>
-              <Button>Publicar un post</Button>
+              <PostDialog />
             </div>
             <div className="mt-4">
               {posts && posts
