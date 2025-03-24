@@ -21,7 +21,7 @@ const PostDialog = () => {
   const [data, setData] = useState({
     title: "",
     content: "",
-    images: null
+    images: []
   });
 
   const [isOpen, setIsOpen] = useState(false);
@@ -61,7 +61,12 @@ const PostDialog = () => {
       },
       body: form,
     });
-
+    setIsOpen(false);
+    setData({
+      title: "",
+      content: "",
+      images: []
+    });
   }
 
   return (
@@ -104,6 +109,15 @@ const PostDialog = () => {
                 onChange={handleInputFiles}
                 multiple
               />
+              <div className="flex gap-2">
+                {data.images && data.images.map((image) => {
+                  return (
+                    <div className="size-20">
+                      <img src={URL.createObjectURL(image)} className="object-cover h-full w-full rounded-md" />
+                    </div>
+                  )
+                })}
+              </div>
             </div>
           </div>
           <DialogFooter>
