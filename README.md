@@ -1,12 +1,77 @@
-# React + Vite
+## Getting Started
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+To run this project, follow these steps:
 
-Currently, two official plugins are available:
+### Prerequisites
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Make sure you have the following installed on your system:
+- [Node.js](https://nodejs.org/) (LTS version recommended)
+- [npm](https://www.npmjs.com/) or [yarn](https://yarnpkg.com/)
 
-## Expanding the ESLint configuration
+### Installation
 
-If you are developing a production application, we recommend using TypeScript and enable type-aware lint rules. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+1. Clone the repository:
+  ```bash
+  git clone https://github.com/mbortg995/realstate_fe.git
+  cd realstate_fe
+  ```
+
+2. Install dependencies:
+  ```bash
+  npm install
+  # or
+  yarn install
+  ```
+
+### Running the Development Server
+
+Start the development server with the following command:
+```bash
+npm run dev
+# or
+yarn dev
+```
+
+This will start the application and you can access it at [http://localhost:3000](http://localhost:3000) in your browser.
+
+### Building for Production
+
+To create a production build, run:
+```bash
+npm run build
+# or
+yarn build
+```
+
+The build output will be located in the `dist` folder.
+
+### Previewing the Production Build
+
+To preview the production build locally, run:
+```bash
+npm run preview
+# or
+yarn preview
+```
+
+### Linting and Formatting
+
+To check for linting issues, run:
+```bash
+npm run lint
+# or
+yarn lint
+```
+
+To format the codebase, run:
+```bash
+npm run format
+# or
+yarn format
+```
+
+### Additional Notes
+
+- If you encounter any issues, make sure your Node.js and npm/yarn versions are up to date.
+- Refer to the [Vite documentation](https://vitejs.dev/) for more details on configuration and advanced usage.
+- Happy coding!
